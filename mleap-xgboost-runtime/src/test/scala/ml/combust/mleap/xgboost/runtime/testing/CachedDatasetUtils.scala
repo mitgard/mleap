@@ -18,10 +18,10 @@ trait CachedDatasetUtils {
 
   // indexing_mode is necessary to tell xgboost that features start from 1, not 0 (xgboost default is 0)
   val binomialDataset: DMatrix =
-    new DMatrix(this.getClass.getClassLoader.getResource(TrainDataFilePath).getFile + "?indexing_mode=1")
+    new DMatrix(this.getClass.getClassLoader.getResource(TrainDataFilePath).getFile + "?format=libsvm")
 
   val multinomialDataset: DMatrix =
-    new DMatrix(this.getClass.getClassLoader.getResource(TrainDataMultinomialFilePath).getFile + "?indexing_mode=1")
+    new DMatrix(this.getClass.getClassLoader.getResource(TrainDataMultinomialFilePath).getFile + "?format=libsvm")
 
   lazy val leapFrameBinomial: DefaultLeapFrame = leapFrameFromCSVFile(TrainDataFilePathCSV)
   lazy val leapFrameMultinomial: DefaultLeapFrame = leapFrameFromLibSVMFile(TrainDataMultinomialFilePath)

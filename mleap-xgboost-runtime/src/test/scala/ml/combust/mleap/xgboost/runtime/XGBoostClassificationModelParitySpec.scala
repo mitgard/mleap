@@ -25,7 +25,7 @@ class XGBoostClassificationModelParitySpec extends org.scalatest.funspec.AnyFunS
 
     leapFrameDataset.dataset.foreach {
       r=>
-        val mleapResult = mleapTransformer.transform(DefaultLeapFrame(leapFrameDataset.schema, Seq(r))).get
+        val mleapResult = mleapTransformer.transform(DefaultLeapFrame(leapFrameDataset.schema, Seq(r).toIndexedSeq)).get
 
         val mleapPredictionColIndex = mleapResult.schema.indexOf("prediction").get
         val mleapRawPredictionColIndex = mleapResult.schema.indexOf("raw_prediction").get
@@ -67,7 +67,7 @@ class XGBoostClassificationModelParitySpec extends org.scalatest.funspec.AnyFunS
 
     leapFrameDataset.dataset.foreach {
       r =>
-        val mleapResult = mleapTransformer.transform(DefaultLeapFrame(leapFrameDataset.schema, Seq(r))).get
+        val mleapResult = mleapTransformer.transform(DefaultLeapFrame(leapFrameDataset.schema, Seq(r).toIndexedSeq)).get
 
         val mleapPredictionColIndex = mleapResult.schema.indexOf("prediction").get
         val mleapRawPredictionColIndex = mleapResult.schema.indexOf("raw_prediction").get
@@ -106,9 +106,9 @@ class XGBoostClassificationModelParitySpec extends org.scalatest.funspec.AnyFunS
   it("has the correct inputs and outputs with columns: prediction, probability and raw_prediction") {
     val numFeatures = ClassifierUtils.mleapTransformer.asInstanceOf[XGBoostClassification].model.numFeatures
     assert(ClassifierUtils.mleapTransformer.schema.fields ==
-      Seq(StructField("features", TensorType(BasicType.Double, Seq(numFeatures))),
-        StructField("raw_prediction", TensorType(BasicType.Double, Seq(2))),
-        StructField("probability", TensorType(BasicType.Double, Seq(2))),
+      Seq(StructField("features", TensorType(BasicType.Double, Seq(numFeatures).toIndexedSeq)),
+        StructField("raw_prediction", TensorType(BasicType.Double, Seq(2).toIndexedSeq)),
+        StructField("probability", TensorType(BasicType.Double, Seq(2).toIndexedSeq)),
         StructField("prediction", ScalarType.Double.nonNullable)))
   }
 

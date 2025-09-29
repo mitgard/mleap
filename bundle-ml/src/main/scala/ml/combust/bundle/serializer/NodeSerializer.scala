@@ -72,7 +72,7 @@ object ProtoFormatNodeSerializer extends FormatNodeSerializer {
   * @tparam Context context class for implementation
   */
 case class NodeSerializer[Context](bundleContext: BundleContext[Context]) {
-  private implicit val format = bundleContext.format
+  private implicit val format: SerializationFormat = bundleContext.format
 
   /** Write a node to the current context path.
     *

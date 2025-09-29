@@ -81,12 +81,12 @@ object Dependencies {
 
     val xgboostDep = "ml.dmlc" %% "xgboost4j" % xgboostVersion
     val xgboostSparkDep = "ml.dmlc" %% "xgboost4j-spark" % xgboostVersion
-    val xgboostPredictorDep = "ai.h2o" % "xgboost-predictor" % "0.3.18" exclude("com.esotericsoftware.kryo", "kryo")
+    val xgboostPredictorDep = "ai.h2o" % "xgboost-predictor" % "0.3.20" exclude("com.esotericsoftware.kryo", "kryo")
 
     val hadoop = "org.apache.hadoop" % "hadoop-client" % hadoopVersion
 
     val slf4jDep = "org.slf4j" % "slf4j-log4j12" % slf4jVersion
-    val scalapbCompilerPlugin =  "com.thesamet.scalapb" %% "compilerplugin" % "0.11.13"
+    val scalapbCompilerPlugin =  "com.thesamet.scalapb" %% "compilerplugin" % "0.11.20"
   }
 
   object Test {

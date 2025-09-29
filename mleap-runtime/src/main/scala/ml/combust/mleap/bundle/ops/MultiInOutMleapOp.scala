@@ -13,10 +13,10 @@ import scala.reflect.ClassTag
 abstract class MultiInOutMleapOp[N <: Transformer, M <: AnyRef](implicit ct: ClassTag[N]) extends MleapOp[N, M] {
   override def load(node: Node, model: M)(implicit context: BundleContext[MleapContext]): N = {
     val ns = node.shape.getInput(NodeShape.standardInputPort) match { // Old version need to translate serialized port names to new expectation (input -> input0)
-      case Some(_) ⇒ translateLegacyShape(node.shape)
+      case Some(_) => translateLegacyShape(node.shape)
 
       // New version
-      case None ⇒ node.shape
+      case None => node.shape
     }
     klazz.getConstructor(classOf[String], classOf[types.NodeShape], Model.klazz).newInstance(node.name, ns.asBundle: types.NodeShape, model)
   }

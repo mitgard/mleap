@@ -3,6 +3,7 @@ package ml.combust.mleap.runtime.frame
 import ml.combust.mleap.core.types.{StructField, StructType}
 import ml.combust.mleap.runtime.function.{Selector, UserDefinedFunction}
 
+import scala.collection.mutable
 import scala.util.Try
 
 /**
@@ -169,7 +170,7 @@ case class RowTransformer private (inputSchema: StructType,
   def transformOption(row: Row): Option[ArrayRow] = {
     val arr = new Array[Any](maxSize)
     row.toArray.copyToArray(arr)
-    val arrRow = ArrayRow(arr)
+    val arrRow = ArrayRow(arr.to(mutable.ArraySeq))
 
     val r = transforms.foldLeft(Option(arrRow)) {
       (r, transform) => r.flatMap(transform)

@@ -35,5 +35,5 @@ class MathUnaryModelSpec extends org.scalatest.funspec.AnyFunSpec {
   unaryLike(Logit, "logit", 0.9, LogitHelper.logit(0.9))
   unaryLike(Floor, "floor", 3.4, Math.floor(3.4))
   unaryLike(Ceil, "ceil", 4.6, Math.ceil(4.6))
-  unaryLike(Round, "round", 8.9, Math.round(8.9))
+  unaryLike(Round, "round", 8.9, Math.round(8.9).toDouble)
 }

@@ -6,7 +6,7 @@ import Keys._
 object Dependencies {
   import DependencyHelpers._
 
-  val sparkVersion = "3.5.6"
+  val sparkVersion = "4.0.0"
   val scalaTestVersion = "3.2.16"
   val scalaPbJson4sVersion = "0.11.1"
   val junitVersion = "5.9.2"
@@ -18,8 +18,8 @@ object Dependencies {
   lazy val slf4jVersion = "2.0.6"
   lazy val awsSdkVersion = "1.12.470"
   lazy val scalaCollectionCompat = "2.8.1"
-  val tensorflowJavaVersion = "0.5.0" // Match Tensorflow 2.10.1 https://github.com/tensorflow/java/#tensorflow-version-support
-  val xgboostVersion = "2.0.3"
+  val tensorflowJavaVersion = "1.1.0" // Match Tensorflow 2.10.1 https://github.com/tensorflow/java/#tensorflow-version-support
+  val xgboostVersion = "3.0.4"
   val breezeVersion = "2.1.0"
   val hadoopVersion = "3.3.4" // matches spark version
   val platforms = "windows-x86_64,linux-x86_64,macosx-x86_64"
@@ -41,9 +41,8 @@ object Dependencies {
     val scalaReflect = ScalaVersionDependentModuleID.versioned("org.scala-lang" % "scala-reflect" % _)
     val scalaTest = "org.scalatest" %% "scalatest" % scalaTestVersion
     val jTransform = "com.github.rwl" % "jtransforms" % "2.4.0" exclude("junit", "junit")
-    var tensorflowCoreApi = "org.tensorflow" % "tensorflow-core-api" % tensorflowJavaVersion
-    (Seq("") ++ tensorflowPlatforms).foreach(platform => tensorflowCoreApi = tensorflowCoreApi classifier platform)
-    val tensorflowDeps = Seq(tensorflowCoreApi)
+    var tensorflowDeps = Seq("org.tensorflow" % "tensorflow-core-api" % tensorflowJavaVersion)
+
     val akkaTestKit = "com.typesafe.akka" %% "akka-testkit" % akkaVersion
     val akkaStreamTestKit = "com.typesafe.akka" %% "akka-stream-testkit" % akkaVersion
 
@@ -82,12 +81,12 @@ object Dependencies {
 
     val xgboostDep = "ml.dmlc" %% "xgboost4j" % xgboostVersion
     val xgboostSparkDep = "ml.dmlc" %% "xgboost4j-spark" % xgboostVersion
-    val xgboostPredictorDep = "ai.h2o" % "xgboost-predictor" % "0.3.18" exclude("com.esotericsoftware.kryo", "kryo")
+    val xgboostPredictorDep = "ai.h2o" % "xgboost-predictor" % "0.3.20" exclude("com.esotericsoftware.kryo", "kryo")
 
     val hadoop = "org.apache.hadoop" % "hadoop-client" % hadoopVersion
 
     val slf4jDep = "org.slf4j" % "slf4j-log4j12" % slf4jVersion
-    val scalapbCompilerPlugin =  "com.thesamet.scalapb" %% "compilerplugin" % "0.11.13"
+    val scalapbCompilerPlugin =  "com.thesamet.scalapb" %% "compilerplugin" % "0.11.20"
   }
 
   object Test {

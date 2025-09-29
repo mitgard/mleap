@@ -10,7 +10,7 @@ import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.{FileSystem, Path}
 
 import scala.util.Try
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 object HadoopBundleFileSystem {
   lazy val defaultSchemes: Seq[String] = Seq("hdfs")
@@ -30,7 +30,7 @@ object HadoopBundleFileSystem {
   }
 
   def createSchemes(config: Config): Seq[String] = if (config.hasPath("schemes")) {
-    config.getStringList("schemes").asScala
+    config.getStringList("schemes").asScala.toSeq
   } else { Seq("hdfs") }
 }
 

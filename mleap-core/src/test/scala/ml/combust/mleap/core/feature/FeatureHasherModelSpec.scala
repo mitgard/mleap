@@ -20,7 +20,7 @@ class FeatureHasherModelSpec  extends org.scalatest.funspec.AnyFunSpec {
     )
 
     it("Has the right input schema") {
-      assert(model.inputSchema.fields == schema.zipWithIndex.map({ case (sf, idx) ⇒
+      assert(model.inputSchema.fields == schema.zipWithIndex.map({ case (sf, idx) =>
           sf.copy(name = s"input$idx")
       }))
     }

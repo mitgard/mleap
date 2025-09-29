@@ -2,11 +2,11 @@ package ml.combust.mleap.core.feature
 
 import ml.combust.mleap.core.types.{BasicType, ListType, StructField, TensorType}
 import org.apache.spark.ml.linalg.Vectors
-import org.scalactic.TolerantNumerics
+import org.scalactic.{Equality, TolerantNumerics}
 import org.scalatest.funspec.AnyFunSpec
 
 class WordToVectorModelSpec extends org.scalatest.funspec.AnyFunSpec {
-  implicit val doubleEquality = TolerantNumerics.tolerantDoubleEquality(0.000001)
+  implicit val doubleEquality: Equality[Double] = TolerantNumerics.tolerantDoubleEquality(0.000001)
 
   describe("word to vector model") {
     val model = WordToVectorModel(Map("test" -> 1), Array(12))

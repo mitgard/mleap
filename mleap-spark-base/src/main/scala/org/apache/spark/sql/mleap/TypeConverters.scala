@@ -36,11 +36,13 @@ trait TypeConverters {
         v.asInstanceOf[Matrix]: Tensor[Double]
     case at: ArrayType if at.elementType == new VectorUDT =>
       (v: Any) =>
-        val t = v.asInstanceOf[mutable.WrappedArray[Vector]]
+        val t = v.asInstanceOf[mutable.ArraySeq[Vector]]
         val s = t.head.size
         val values = t.flatMap(_.toArray).toArray
         DenseTensor(values, Seq(t.size, s))
-    case _ => (v) => v
+    case _: ArrayType => v => v.asInstanceOf[mutable.ArraySeq.ofRef[_]].toSeq
+    case _ =>
+      (v) => v
   }
 
   def sparkToMleapConverter(dataset: DataFrame,
@@ -77,7 +79,7 @@ trait TypeConverters {
         val m = dataset.select(field.name).head.getAs[Matrix](0)
         types.TensorType.Double(m.numRows, m.numCols)
       case ArrayType(elementType, _) if elementType == new VectorUDT =>
-        val a = dataset.select(field.name).head.getAs[mutable.WrappedArray[Vector]](0)
+        val a = dataset.select(field.name).head.getAs[mutable.ArraySeq[Vector]](0)
         types.TensorType.Double(a.length, a.head.size)
       case _ => throw new UnsupportedOperationException(s"Cannot convert spark field $field to mleap")
     }

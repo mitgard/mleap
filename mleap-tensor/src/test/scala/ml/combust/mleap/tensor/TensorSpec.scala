@@ -1,12 +1,14 @@
 package ml.combust.mleap.tensor
 
+import scala.collection.View
+
 class TensorSpec extends org.scalatest.funspec.AnyFunSpec {
   def toIndices(dimensions: Seq[Int]): Seq[Seq[Int]] = combine(dimensions.map(d => 0 until d))
 
-  def combine[A](xs: Traversable[Traversable[A]]): Seq[Seq[A]] =
-    xs.foldLeft(Seq(Seq.empty[A])) {
+  def combine[A](xs: Iterable[Iterable[A]]): Seq[Seq[A]] =
+    xs.foldLeft(View(Seq.empty[A])) {
       (x, y) => for (a <- x.view; b <- y) yield a :+ b
-    }
+    }.toSeq
 
   describe("Test Legacy DenseTensor Get") {
     def legacy_get(indices: Seq[Int], dimensions: Seq[Int]) = {
@@ -98,7 +100,7 @@ class TensorSpec extends org.scalatest.funspec.AnyFunSpec {
     val dims = shape.length
     val size = shape.product
     val floatArray = Array.fill(size) {
-      random.nextFloat
+      random.nextFloat()
     }
 
     it("should be equal for dense tensors with same elements and dimensions") {

@@ -6,7 +6,7 @@ import ml.combust.mleap.core.types.{StructField, StructType, TensorType}
 import ml.combust.mleap.tensor.Tensor
 import ml.combust.mleap.tensorflow.converter.{MleapConverter, TensorflowConverter}
 import org.tensorflow
-import org.tensorflow.proto.framework.GraphDef
+import org.tensorflow.proto.GraphDef
 
 import java.io.ByteArrayInputStream
 import java.nio.file.Files
@@ -28,7 +28,7 @@ case class TensorflowModel( @transient var graph: Option[tensorflow.Graph] = Non
                           ) extends Model with AutoCloseable {
 
   def apply(values: Tensor[_] *): Seq[Any] = {
-    val garbage: mutable.ArrayBuilder[tensorflow.Tensor] = mutable.ArrayBuilder.make[tensorflow.Tensor]()
+    val garbage: mutable.ArrayBuilder[tensorflow.Tensor] = mutable.ArrayBuilder.make[tensorflow.Tensor]
 
     val result = Try {
       val tensors = values.zip(inputs).map {

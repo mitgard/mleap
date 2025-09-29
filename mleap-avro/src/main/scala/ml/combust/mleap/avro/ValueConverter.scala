@@ -91,11 +91,11 @@ case class ValueConverter() {
     case tt: TensorType =>
       (value) => {
         val record = value.asInstanceOf[GenericData.Record]
-        val dimensions = record.get(tensorSchemaDimensionsIndex).asInstanceOf[java.util.List[Int]].asScala
+        val dimensions = record.get(tensorSchemaDimensionsIndex).asInstanceOf[java.util.List[Int]].asScala.toSeq
         val values = record.get(tensorSchemaValuesIndex)
         val indices = record.get(tensorSchemaIndicesIndex) match {
           case null => None
-          case is => Some(is.asInstanceOf[java.util.List[java.util.List[Int]]].asScala.map(_.asScala))
+          case is => Some(is.asInstanceOf[java.util.List[java.util.List[Int]]].asScala.map(_.asScala.toSeq).toSeq)
         }
 
         tt.base match {

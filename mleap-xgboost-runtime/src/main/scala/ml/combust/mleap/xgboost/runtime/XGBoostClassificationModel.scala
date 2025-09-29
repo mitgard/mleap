@@ -20,10 +20,10 @@ trait XGBoostClassificationModelBase extends ProbabilisticClassificationModel {
   def predictProbabilities(data: DMatrix): Vector
 
   def predictLeaf(features: Vector): Seq[Double] = predictLeaf(features.asXGB)
-  def predictLeaf(data: DMatrix): Seq[Double] = booster.predictLeaf(data, treeLimit = treeLimit).head.map(_.toDouble)
+  def predictLeaf(data: DMatrix): Seq[Double] = booster.predictLeaf(data, treeLimit = treeLimit).head.map(_.toDouble).toSeq
 
   def predictContrib(features: Vector): Seq[Double] = predictContrib(features.asXGB)
-  def predictContrib(data: DMatrix): Seq[Double] = booster.predictContrib(data, treeLimit = treeLimit).head.map(_.toDouble)
+  def predictContrib(data: DMatrix): Seq[Double] = booster.predictContrib(data, treeLimit = treeLimit).head.map(_.toDouble).toSeq
 }
 
 case class XGBoostBinaryClassificationModel(override val booster: Booster,

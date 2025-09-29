@@ -9,6 +9,8 @@ import org.apache.spark.ml.linalg.SparseVector
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.mleap.TypeConverters
 
+import scala.collection.mutable
+
 
 trait CachedDatasetUtils {
 
@@ -88,7 +90,7 @@ trait CachedDatasetUtils {
         array(labelColumnIndex) = row.getDouble(labelColumnIndex)
         array(featureColumnIndex) = row.getTensor[Double](featureColumnIndex).toDense
 
-        ArrayRow(array)
+        ArrayRow(array.to(mutable.ArraySeq))
       }
     }
 

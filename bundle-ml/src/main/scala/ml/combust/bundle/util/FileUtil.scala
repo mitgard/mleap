@@ -6,7 +6,7 @@ import java.nio.file.{FileVisitResult, Files, FileSystems, Path, SimpleFileVisit
 import java.util.Comparator
 import java.util.stream.Collectors
 import java.util.zip.{ZipEntry, ZipInputStream, ZipOutputStream}
-import scala.jdk.CollectionConverters.iterableAsScalaIterableConverter
+import scala.jdk.CollectionConverters._
 import scala.util.{Failure, Success, Try, Using}
 /**
   * Created by hollinwilkins on 12/24/16.

@@ -2,12 +2,12 @@ package ml.combust.mleap.binary
 
 import java.io.{ByteArrayInputStream, DataInputStream}
 import java.nio.charset.Charset
-
 import ml.combust.mleap.runtime.serialization.{BuiltinFormats, RowReader}
 import ml.combust.mleap.core.types.StructType
 import ml.combust.mleap.runtime.frame.{ArrayRow, Row}
-import scala.util.Using
 
+import scala.collection.mutable
+import scala.util.Using
 import scala.util.Try
 
 /**
@@ -19,7 +19,7 @@ class DefaultRowReader(override val schema: StructType) extends RowReader {
   override def fromBytes(bytes: Array[Byte], charset: Charset = BuiltinFormats.charset): Try[Row] = {
     Using(new ByteArrayInputStream(bytes)) { in =>
       val din = new DataInputStream(in)
-      val row = ArrayRow(new Array[Any](schema.fields.length))
+      val row = ArrayRow((new Array[Any](schema.fields.length)).to(mutable.ArraySeq))
       var i = 0
       for(s <- serializers) {
         row.set(i, s.read(din))

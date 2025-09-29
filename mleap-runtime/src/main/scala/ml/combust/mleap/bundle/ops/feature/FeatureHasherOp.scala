@@ -29,7 +29,7 @@ class FeatureHasherOp extends MleapOp[FeatureHasher, FeatureHasherModel] {
                      (implicit context: BundleContext[MleapContext]): FeatureHasherModel = {
       val shapes = model.value("input_shapes").getDataShapeList.map(bundleToMleapShape)
       val types = model.value("basic_types").getBasicTypeList.map(bundleToMleapBasicType)
-      val inputTypes = shapes.zip(types).map(tup ⇒ DataType(tup._2, tup._1))
+      val inputTypes = shapes.zip(types).map(tup => DataType(tup._2, tup._1))
 
       FeatureHasherModel(numFeatures = model.value("num_features").getLong.toInt,
         categoricalCols = model.value("categorical_cols").getStringList,

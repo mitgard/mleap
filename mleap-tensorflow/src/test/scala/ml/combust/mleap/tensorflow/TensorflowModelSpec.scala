@@ -12,7 +12,7 @@ import org.tensorflow.types.TFloat32
 import java.io.ByteArrayOutputStream
 import java.nio.file.Files
 import java.util.zip.ZipOutputStream
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /**
   * Created by hollinwilkins on 1/12/17.

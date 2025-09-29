@@ -23,7 +23,7 @@ class FeatureHasherSpec extends org.scalatest.funspec.AnyFunSpec {
 
   describe("input/output schema") {
 
-    val shape = inputSchema.foldLeft(NodeShape()) { (acc, item) ⇒
+    val shape = inputSchema.foldLeft(NodeShape()) { (acc, item) =>
       acc.withInput(item._1, item._2.name)
     }.withOutput(outputSchema.head._1, outputSchema.head._2.name)
 

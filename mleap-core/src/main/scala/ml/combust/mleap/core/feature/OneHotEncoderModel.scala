@@ -45,7 +45,7 @@ case class OneHotEncoderModel(categorySizes: Array[Int],
       throw new IllegalArgumentException(s"invalid input size: ${labels.length}, must be ${categorySizes.length}")
     }
     labels.zipWithIndex.map {
-      case (label: Double, colIdx: Int) ⇒ encoder(label, colIdx)
+      case (label: Double, colIdx: Int) => encoder(label, colIdx)
     }
   }
 

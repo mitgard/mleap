@@ -23,8 +23,8 @@ class FeatureHasherOp extends SimpleSparkOp[FeatureHasher] {
         Array.empty[String]
       }
       val dataset = context.context.dataset.get
-      val inputShapes = obj.getInputCols.map(i ⇒ sparkToMleapDataShape(dataset.schema(i), dataset): DataShape)
-      val basicTypes = obj.getInputCols.map(i ⇒ sparkFieldToMleapField(dataset, dataset.schema(i)).dataType.base).map(mleapToBundleBasicType)
+      val inputShapes = obj.getInputCols.map(i => sparkToMleapDataShape(dataset.schema(i), dataset): DataShape)
+      val basicTypes = obj.getInputCols.map(i => sparkFieldToMleapField(dataset, dataset.schema(i)).dataType.base).map(mleapToBundleBasicType)
 
       model.withValue("num_features", Value.long(obj.getNumFeatures))
         .withValue("categorical_cols", Value.stringList(categoricals))

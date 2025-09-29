@@ -24,12 +24,12 @@ class XGBoostRegressionModelParitySpec extends SparkParityBase {
   override val unserializedParams = Set("labelCol", "evalMetric", "objective")
 
   val dataset: DataFrame = {
-    import spark.sqlContext.implicits._
+    import spark.implicits._
 
     spark.sqlContext.sparkContext.textFile(this.getClass.getClassLoader.getResource("datasources/xgboost_training.csv").toString)
       .map(x => x.split(","))
       .map(line => PowerPlantTable(line(0).toDouble, line(1).toDouble, line(2).toDouble, line(3).toDouble, line(4).toDouble))
-      .toDF
+      .toDF()
   }
 
   val sparkTransformer: Transformer = {

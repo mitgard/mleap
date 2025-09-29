@@ -47,7 +47,7 @@ class OneHotEncoderOp extends MultiInOutSparkOp[OneHotEncoderModel] {
       assert(!(obj.isSet(obj.outputCol) && obj.isSet(obj.outputCols)), "OneHotEncoderModel cannot have both outputCol and outputCols set")
       val inputCols = if (obj.isSet(obj.inputCol)) Array(obj.getInputCol) else obj.getInputCols
       val df = context.context.dataset.get
-      val categorySizes = inputCols.map { f ⇒ OneHotEncoderOp.sizeForField(df.schema(f)) }
+      val categorySizes = inputCols.map { f => OneHotEncoderOp.sizeForField(df.schema(f)) }
       model.withValue("category_sizes", Value.intList(categorySizes))
         .withValue("drop_last", Value.boolean(obj.getDropLast))
         .withValue("handle_invalid", Value.string(obj.getHandleInvalid))

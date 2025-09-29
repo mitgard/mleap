@@ -2,12 +2,11 @@ package ml.combust.mleap.tensorflow.converter
 
 import ml.combust.mleap.core.types.{BasicType, TensorType}
 
-import java.nio._
 import ml.combust.mleap.tensor.{ByteString, DenseTensor}
 import org.tensorflow
 import org.tensorflow.ndarray.{NdArray, NdArraySequence}
-import org.tensorflow.ndarray.buffer.DataBuffers
 import org.tensorflow.types._
+
 
 import scala.collection.mutable.ArrayBuffer
 import java.util.function.BiConsumer
@@ -23,25 +22,30 @@ object TensorflowConverter {
 
       tensor match {
         case u8: TUint8 =>
-         val buffer = ByteBuffer.allocate(size)
-          u8.read(DataBuffers.of(buffer))
-          DenseTensor(buffer.array, dimensions)
+          val buffer = u8.asRawTensor().data()
+          val array = new Array[Byte](buffer.size().toInt)
+          buffer.read(array)
+          DenseTensor(array, dimensions)
         case i32: TInt32 =>
-         val buffer = IntBuffer.allocate(size)
-          i32.read(DataBuffers.of(buffer))
-          DenseTensor(buffer.array, dimensions)
+          val data = i32.asRawTensor().data().asInts()
+          val array = new Array[Int](size)
+          data.read(array)
+          DenseTensor(array, dimensions)
         case i64: TInt64=>
-         val buffer = LongBuffer.allocate(size)
-          i64.read(DataBuffers.of(buffer))
-          DenseTensor(buffer.array, dimensions)
+          val data = i64.asRawTensor().data().asLongs()
+          val array = new Array[Long](size)
+          data.read(array)
+          DenseTensor(array, dimensions)
         case f32: TFloat32 =>
-         val buffer = FloatBuffer.allocate(size)
-          f32.read(DataBuffers.of(buffer))
-          DenseTensor(buffer.array, dimensions)
+          val data = f32.asRawTensor().data().asFloats()
+          val array = new Array[Float](size)
+          data.read(array)
+          DenseTensor(array, dimensions)
         case f64: TFloat64 =>
-         val buffer = DoubleBuffer.allocate(size)
-          f64.read(DataBuffers.of(buffer))
-          DenseTensor(buffer.array, dimensions)
+          val data = f64.asRawTensor().data().asDoubles()
+          val array = new Array[Double](size)
+          data.read(array)
+          DenseTensor(array, dimensions)
         case str: TString =>
           tensorType.base match {
             case BasicType.String =>

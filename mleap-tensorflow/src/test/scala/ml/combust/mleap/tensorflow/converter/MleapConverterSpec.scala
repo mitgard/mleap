@@ -6,19 +6,21 @@ import org.scalatest.funspec.AnyFunSpec
 import org.tensorflow.types._
 import org.tensorflow.ndarray.Shape
 
-class MleapConverterSpec extends org.scalatest.funspec.AnyFunSpec {
+import scala.collection.View
+
+class MleapConverterSpec extends AnyFunSpec {
   val random = new scala.util.Random
   val shape = Seq(3, 3, 3, 3, 3, 3, 3)
-  val size = shape.product
+  val size: Int = shape.product
 
-  def toIndices(dimensions: Traversable[Int]): Seq[Seq[Int]] = {
+  def toIndices(dimensions: Iterable[Int]): Seq[Seq[Int]] = {
     combine(dimensions.map(d => 0 until d))
   }
 
-  def combine[A](xs: Traversable[Traversable[A]]): Seq[Seq[A]] =
-    xs.foldLeft(Seq(Seq.empty[A])) {
+  def combine[A](xs: Iterable[Iterable[A]]): Seq[Seq[A]] =
+    xs.foldLeft(View(Seq.empty[A])) {
       (x, y) => for (a <- x.view; b <- y) yield a :+ b
-    }
+    }.toSeq
 
   describe("round trip from mleap tensor to tensorflow tensor") {
 
@@ -111,7 +113,7 @@ class MleapConverterSpec extends org.scalatest.funspec.AnyFunSpec {
     it("byte string nd dense tensors") {
       val array = Array.fill[ByteString](size) {
         val bytes = Array.fill[Byte](100) {
-          'a'
+          'a'.toByte
         }
         random.nextBytes(bytes)
         ByteString(bytes)
@@ -192,13 +194,13 @@ class MleapConverterSpec extends org.scalatest.funspec.AnyFunSpec {
     }
 
     it("scalar byte string converted to tf tensor and convert it back") {
-      val bytes = Array.fill[Byte](100) {'a'}
+      val bytes = Array.fill[Byte](100) {'a'.toByte}
       random.nextBytes(bytes)
       val mlTensor = Tensor.scalar(ByteString(bytes))
       assert(1  == mlTensor.size)
       assert(mlTensor.dimensions == Seq())
       val tfTensorConverted = MleapConverter.convert(mlTensor)
-      assert(tfTensorConverted.shape().isScalar())
+      assert(tfTensorConverted.shape().isScalar)
       assert(tfTensorConverted.size() == 1)
       val mlTensorConverted = TensorflowConverter.convert(tfTensorConverted, TensorType.ByteString())
       assert(1 == mlTensorConverted.size)

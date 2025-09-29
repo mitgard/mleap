@@ -49,23 +49,23 @@ case class FeatureHasherModel(numFeatures: Int = 1 << 18,
                               inputNames: Seq[String],
                               inputTypes: Seq[DataType]
                              ) extends Model  {
-  assert(inputTypes.forall(dt ⇒ dt.shape.isScalar), "must provide scalar shapes as inputs")
+  assert(inputTypes.forall(dt => dt.shape.isScalar), "must provide scalar shapes as inputs")
 
   val schema = inputNames.zip(inputTypes)
-  val realFields = schema.filter(t ⇒ t._2.base match {
-    case BasicType.Short if !categoricalCols.contains(t._1) ⇒ true
-    case BasicType.Double if !categoricalCols.contains(t._1) ⇒ true
-    case BasicType.Float if !categoricalCols.contains(t._1) ⇒ true
-    case BasicType.Int if !categoricalCols.contains(t._1) ⇒ true
-    case BasicType.Long if !categoricalCols.contains(t._1) ⇒ true
-    case _ ⇒ false
+  val realFields = schema.filter(t => t._2.base match {
+    case BasicType.Short if !categoricalCols.contains(t._1) => true
+    case BasicType.Double if !categoricalCols.contains(t._1) => true
+    case BasicType.Float if !categoricalCols.contains(t._1) => true
+    case BasicType.Int if !categoricalCols.contains(t._1) => true
+    case BasicType.Long if !categoricalCols.contains(t._1) => true
+    case _ => false
   }).toMap.keys.toSeq
 
   def getDouble(x: Any): Double = {
     x match {
-      case n: java.lang.Number ⇒ n.doubleValue()
+      case n: java.lang.Number => n.doubleValue()
       // will throw ClassCastException if it cannot be cast, as would row.getDouble
-      case other ⇒ other.asInstanceOf[Double]
+      case other => other.asInstanceOf[Double]
     }
   }
 
@@ -76,7 +76,7 @@ case class FeatureHasherModel(numFeatures: Int = 1 << 18,
 
   def apply(things: Seq[Any]): Vector = {
     val map = new mutable.OpenHashMap[Int, Double]()
-    schema.zip(things).foreach { case (sc, item) ⇒
+    schema.zip(things).foreach { case (sc, item) =>
       if (item != null) {
         val (rawIdx, value) = if (realFields.contains(sc._1)) {
           // numeric values are kept as is, with vector index based on hash of "column_name"
